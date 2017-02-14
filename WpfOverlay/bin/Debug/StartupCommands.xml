@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfRunAtStartup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <RunAtStartup>
+    <DisplayName>Test</DisplayName>
+    <CommandContent2>using System;
+using System.IO;
+using System.Windows.Forms;
+
+namespace MyNamespace
+    {
+        public class MyClass
+        {
+            public object DynamicCode(params object[] Parameters)
+            {
+              //code goes here
+         //  Console.Beep();
+
+               return null;
+             } 
+            }
+           }</CommandContent2>
+  </RunAtStartup>
+</ArrayOfRunAtStartup>
