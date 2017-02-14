@@ -1,5 +1,5 @@
 # WPFoverlay
-WPF .net c# overlay capable of running c# command in runtime via the provided overlay and speech recognition
+WPF .net c# overlay capable of running c# commands in runtime via the provided overlay and speech recognition
 
 
 This is an open source project capable of running c# commands in runtime via the overlay provided or with microsoft's speech recognition built in with my application.
