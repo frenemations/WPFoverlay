@@ -22,55 +22,16 @@ System.Diagnostics.Process.Start("https://www.youtube.com/feed/subscriptions");
              
              else if(action == "gmail")
              System.Diagnostics.Process.Start("https://mail.google.com/mail/u/0/");  
-             else if(action == "smite")
-             System.Diagnostics.Process.Start(@"steam://rungameid/386360"); 
-             else if(action == "overwatch")
-             System.Diagnostics.Process.Start(@"E:\Games\Blizzard\Overwatch Launcher.exe");
              else if(action == "duolingo")
              System.Diagnostics.Process.Start(@"https://www.duolingo.com/"); 
-             else if(action == "axxesse")
-             System.Diagnostics.Process.Start(@"C:\Users\Shane\AppData\Roaming\19028445320514601.txt"); 
              else if(action == "pingtest")
              System.Diagnostics.Process.Start(@"http://capetown.spdtst.saix.net/"); 
-             else if(action == "musicfolder")
-             {
-             System.Diagnostics.Process.Start(@"E:\music");
-             }
-             else if(action == "gamesfolder")
-             System.Diagnostics.Process.Start(@"E:\Games\installs");
-             
-             else if(action == "satpractice")
-             {
-             System.Diagnostics.Process.Start(@"https://www.khanacademy.org/mission/sat/overview");
-             }
+           
              return null;
              } 
             }
            }</CommandContent>
     <VoiceTrigger>Open &amp; string/stringname=action/youtube/twitch/gmail/smite/overwatch/duolingo/axxesse/pingtest/games folder/sat practice/music folder</VoiceTrigger>
-    <RequireAuth>false</RequireAuth>
-  </Command>
-  <Command>
-    <ButtonName>Gaming Mix</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-
-namespace WpfOverlay
-    {
-        public class MyClass
-        {
-            public object DynamicCode(params object[] Parameters)
-            {
-              //code goes here
-           
-System.Diagnostics.Process.Start(@"E:\music\Playlists\GamingMix.xspf"); return null;
-             
-             } 
-            }
-
-           }</CommandContent>
-    <VoiceTrigger>Open Gaming Mix</VoiceTrigger>
     <RequireAuth>false</RequireAuth>
   </Command>
   <Command>
@@ -171,286 +132,6 @@ namespace WpfOverlay
     <RequireAuth>false</RequireAuth>
   </Command>
   <Command>
-    <ButtonName>Speech</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Speech.Synthesis;
-namespace WpfOverlay
-{
-    public class MyClass
-    {
-        public object DynamicCode(params object[] Parameters)
-        {
-            //code goes here
-
-            // Initialize a new instance of the SpeechSynthesizer.
-            SpeechSynthesizer synth = new SpeechSynthesizer();
-
-            // Configure the audio output. 
-            synth.SetOutputToDefaultAudioDevice();
-            synth.Rate = 3;
-            // Speak a string.
-            synth.Speak("Overlay Started, System Normal");
-
-            return null;
-        }
-    }
-}</CommandContent>
-    <RequireAuth>false</RequireAuth>
-  </Command>
-  <Command>
-    <ButtonName>Weather</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Speech.Recognition;
-using System.Windows;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Schema;
-using System.Xml.Serialization;
-using System.Speech.Synthesis;
-namespace WpfOverlay
-    {
-[XmlRoot(ElementName = "coord")]
-    public class Coord
-    {
-        [XmlAttribute(AttributeName = "lon")]
-        public string Lon { get; set; }
-        [XmlAttribute(AttributeName = "lat")]
-        public string Lat { get; set; }
-    }
-
-    [XmlRoot(ElementName = "sun")]
-    public class Sun
-    {
-        [XmlAttribute(AttributeName = "rise")]
-        public string Rise { get; set; }
-        [XmlAttribute(AttributeName = "set")]
-        public string Set { get; set; }
-    }
-
-    [XmlRoot(ElementName = "city")]
-    public class City
-    {
-        [XmlElement(ElementName = "coord")]
-        public Coord Coord { get; set; }
-        [XmlElement(ElementName = "country")]
-        public string Country { get; set; }
-        [XmlElement(ElementName = "sun")]
-        public Sun Sun { get; set; }
-        [XmlAttribute(AttributeName = "id")]
-        public string Id { get; set; }
-        [XmlAttribute(AttributeName = "name")]
-        public string Name { get; set; }
-    }
-
-    [XmlRoot(ElementName = "temperature")]
-    public class Temperature
-    {
-        [XmlAttribute(AttributeName = "value")]
-        public string Value { get; set; }
-        [XmlAttribute(AttributeName = "min")]
-        public string Min { get; set; }
-        [XmlAttribute(AttributeName = "max")]
-        public string Max { get; set; }
-        [XmlAttribute(AttributeName = "unit")]
-        public string Unit { get; set; }
-    }
-
-    [XmlRoot(ElementName = "humidity")]
-    public class Humidity
-    {
-        [XmlAttribute(AttributeName = "value")]
-        public string Value { get; set; }
-        [XmlAttribute(AttributeName = "unit")]
-        public string Unit { get; set; }
-    }
-
-    [XmlRoot(ElementName = "pressure")]
-    public class Pressure
-    {
-        [XmlAttribute(AttributeName = "value")]
-        public string Value { get; set; }
-        [XmlAttribute(AttributeName = "unit")]
-        public string Unit { get; set; }
-    }
-
-    [XmlRoot(ElementName = "speed")]
-    public class Speed
-    {
-        [XmlAttribute(AttributeName = "value")]
-        public string Value { get; set; }
-        [XmlAttribute(AttributeName = "name")]
-        public string Name { get; set; }
-    }
-
-    [XmlRoot(ElementName = "direction")]
-    public class Direction
-    {
-        [XmlAttribute(AttributeName = "value")]
-        public string Value { get; set; }
-        [XmlAttribute(AttributeName = "code")]
-        public string Code { get; set; }
-        [XmlAttribute(AttributeName = "name")]
-        public string Name { get; set; }
-    }
-
-    [XmlRoot(ElementName = "wind")]
-    public class Wind
-    {
-        [XmlElement(ElementName = "speed")]
-        public Speed Speed { get; set; }
-        [XmlElement(ElementName = "gusts")]
-        public string Gusts { get; set; }
-        [XmlElement(ElementName = "direction")]
-        public Direction Direction { get; set; }
-    }
-
-    [XmlRoot(ElementName = "clouds")]
-    public class Clouds
-    {
-        [XmlAttribute(AttributeName = "value")]
-        public string Value { get; set; }
-        [XmlAttribute(AttributeName = "name")]
-        public string Name { get; set; }
-    }
-
-    [XmlRoot(ElementName = "precipitation")]
-    public class Precipitation
-    {
-        [XmlAttribute(AttributeName = "mode")]
-        public string Mode { get; set; }
-    }
-
-    [XmlRoot(ElementName = "weather")]
-    public class Weather
-    {
-        [XmlAttribute(AttributeName = "number")]
-        public string Number { get; set; }
-        [XmlAttribute(AttributeName = "value")]
-        public string Value { get; set; }
-        [XmlAttribute(AttributeName = "icon")]
-        public string Icon { get; set; }
-    }
-
-    [XmlRoot(ElementName = "lastupdate")]
-    public class Lastupdate
-    {
-        [XmlAttribute(AttributeName = "value")]
-        public string Value { get; set; }
-    }
-
-    [XmlRoot(ElementName = "current")]
-    public class Current
-    {
-        [XmlElement(ElementName = "city")]
-        public City City { get; set; }
-        [XmlElement(ElementName = "temperature")]
-        public Temperature Temperature { get; set; }
-        [XmlElement(ElementName = "humidity")]
-        public Humidity Humidity { get; set; }
-        [XmlElement(ElementName = "pressure")]
-        public Pressure Pressure { get; set; }
-        [XmlElement(ElementName = "wind")]
-        public Wind Wind { get; set; }
-        [XmlElement(ElementName = "clouds")]
-        public Clouds Clouds { get; set; }
-        [XmlElement(ElementName = "visibility")]
-        public string Visibility { get; set; }
-        [XmlElement(ElementName = "precipitation")]
-        public Precipitation Precipitation { get; set; }
-        [XmlElement(ElementName = "weather")]
-        public Weather Weather { get; set; }
-        [XmlElement(ElementName = "lastupdate")]
-        public Lastupdate Lastupdate { get; set; }
-    }
-
-    /// &lt;summary&gt;
-    /// Interaction logic for MainWindow.xaml
-    /// &lt;/summary&gt;
-    /// 
-   
-
-        public class MyClass
-        {
-             public object DynamicCode(params object[] Parameters)
-        {
-            SpeechRecognitionEngine rec = new SpeechRecognitionEngine();
-            XmlSchemaSet schemas = new XmlSchemaSet();
-            //    schemas.Add(SpeechRecognitionDemo, "test");
-
-
-            var xDoc = XDocument.Load("http://api.openweathermap.org/data/2.5/weather?id=3362671&amp;mode=xml&amp;units=Metric&amp;APPID=17732f1025bf120d2aa791ed1a844f6c");
-            Console.WriteLine(xDoc);
-            String XdocString = xDoc.ToString();
-            XmlSerializer serializer = new XmlSerializer(typeof(Current));
-            Current resultingMessage = (Current)serializer.Deserialize(new StringReader(XdocString));
-
-            SpeechSynthesizer synth = new SpeechSynthesizer();
-
-            // Configure the audio output. 
-            synth.SetOutputToDefaultAudioDevice();
-            synth.Rate = 2;
-            synth.SelectVoice("Microsoft Zira Desktop");
-            // Speak a string.
-            synth.Speak("In " + resultingMessage.City.Name + ", The temperature is " + resultingMessage.Temperature.Value + "Degrees Celcius." + " Cloudiness is  "  + resultingMessage.Clouds.Value + "percent" + ". The humidity, is " + resultingMessage.Humidity.Value + "Percent. weather looks like  " + resultingMessage.Weather.Value + ", and Wind Is Blowing " + resultingMessage.Wind.Speed.Value + "Kilometres per hour," );
-
-            return null;
-
-        }
-            }
-           }</CommandContent>
-    <VoiceTrigger>(What is the weather like | whats the weather like | whats the weather | weather please)</VoiceTrigger>
-    <RequireAuth>false</RequireAuth>
-  </Command>
-  <Command>
-    <ButtonName>Suits</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-
-namespace WpfOverlay
-    {
-        public class MyClass
-        {
-            public object DynamicCode(params object[] Parameters)
-            {
-              //code goes here
-           
-System.Diagnostics.Process.Start("http://watch5s.to/search/?q=suits");  return null;
-             
-             } 
-            }
-
-           }</CommandContent>
-    <VoiceTrigger>Open Suits</VoiceTrigger>
-    <RequireAuth>false</RequireAuth>
-  </Command>
-  <Command>
-    <ButtonName>Chilled Mix</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-
-namespace WpfOverlay
-    {
-        public class MyClass
-        {
-            public object DynamicCode(params object[] Parameters)
-            {
-              //code goes here
-           
-System.Diagnostics.Process.Start(@"E:\music\Playlists\Chilled.xspf"); return null;
-             
-             } 
-            }
-
-           }</CommandContent>
-    <VoiceTrigger>Open Chilled Mix</VoiceTrigger>
-    <RequireAuth>false</RequireAuth>
-  </Command>
-  <Command>
     <ButtonName>Sleep Mode</ButtonName>
     <CommandContent>using System;
 using System.IO;
@@ -470,157 +151,6 @@ namespace WpfOverlay
             }
            }</CommandContent>
     <VoiceTrigger>Sleep Computer</VoiceTrigger>
-    <RequireAuth>true</RequireAuth>
-  </Command>
-  <Command>
-    <ButtonName>ShutDown</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Diagnostics;
-
-namespace WpfOverlay
-    {
-        public class MyClass
-        {
-            public object DynamicCode(params object[] Parameters)
-            {
-              //code goes here
-           Process.Start("shutdown","/s /t 0");
-
-               return null;
-             } 
-            }
-           }</CommandContent>
-    <VoiceTrigger>Shut Down computer</VoiceTrigger>
-    <RequireAuth>true</RequireAuth>
-  </Command>
-  <Command>
-    <ButtonName>Maintenance</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Diagnostics;
-namespace WpfOverlay
-    {
-        public class MyClass
-        {
-            public object DynamicCode(params object[] Parameters)
-            {
-              //code goes here
-           Process.Start(@"C:\Program Files\CCleaner\CCleaner64.exe", " /AUTO");
-
-               return null;
-             } 
-            }
-           }</CommandContent>
-    <VoiceTrigger>Run Maintenance</VoiceTrigger>
-    <RequireAuth>false</RequireAuth>
-  </Command>
-  <Command>
-    <ButtonName>UDP TEST</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-using NetworkCommsDotNet;
-using NetworkCommsDotNet.Connections.UDP;
-using System.Net;
-using System.Diagnostics;
-using NetworkCommsDotNet.Tools;
-using ProtoBuf;
-namespace WpfOverlay
-    {
-        public class MyClass
-        {
-            public object DynamicCode(params object[] Parameters)
-            {
-            //Parse the necessary information out of the provided string
-            string serverIP = "127.0.0.1";
-            int serverPort = 1100;
-
-
-           
-
-                string messageToSend = "This is message #";
-
-
-                //Send the message in a single line
-                //NetworkComms.SendObject("Message", serverIP, serverPort, messageToSend);
-try{
-         Object Baa =  NetworkComms.SendReceiveObject&lt;string, CustomObject&gt;("Message", "127.0.0.1", 1100, "reply", 10000, "ps");
-   }
-   catch(Exception E)
-   {
-            Console.WriteLine("PACKET NOT RECIEVED");
-   }
-
-            //We have used comms so we make sure to call shutdown
-
-               return null;
-             } 
-             [ProtoContract]
-    class CustomObject
-    {
-        [ProtoMember(1)]
-        public String StringValue { get; set; }
-
-        [ProtoMember(2)]
-        public int IntValue { get; set; }
-
-        [ProtoMember(3)]
-        public bool BoolValue { get; set; }
-
-       [ProtoMember(4)]
-       public Process ProcessValue { get; set; }
-    }
-             
-            }
-            
-           }</CommandContent>
-    <RequireAuth>false</RequireAuth>
-  </Command>
-  <Command>
-    <ButtonName>Interface</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-using WpfOverlay;
-namespace MyNamespace
-    {
-        public class MyClass
-        {
-            public object DynamicCode(params object[] Parameters)
-            {
-              //code goes here
-           object Boom = WPFInterface.GetObject("ps");
-
-               return null;
-             } 
-            }
-           }</CommandContent>
-    <RequireAuth>false</RequireAuth>
-  </Command>
-  <Command>
-    <ButtonName>Restart </ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Diagnostics;
-
-namespace WpfOverlay
-    {
-        public class MyClass
-        {
-            public object DynamicCode(params object[] Parameters)
-            {
-              //code goes here
-           Process.Start(@"E:\school notes\Coding\CentralApp\WpfOverlay\WpfOverlay\bin\Debug\Restart.bat");
-
-               return null;
-             } 
-            }
-           }</CommandContent>
-    <VoiceTrigger>Restart</VoiceTrigger>
     <RequireAuth>true</RequireAuth>
   </Command>
   <Command>
@@ -745,202 +275,6 @@ return null;
     <RequireAuth>false</RequireAuth>
   </Command>
   <Command>
-    <ButtonName>Play Latest Music</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Linq;
-namespace WpfOverlay
-    {
-        public class MyClass
-        {
-        int count;
-            public object DynamicCode(params object[] Parameters)
-            {
-              //code goes here
-var FILES = Directory
-.GetFiles(@"E:\music\")
-.Where(s =&gt; s.EndsWith(".mp3") || s.EndsWith(".wav") || s.EndsWith(".mp4"))
-.Select(x =&gt; new FileInfo(x)) 
-.OrderByDescending(x =&gt; x.LastWriteTime) 
-.Take(count) 
-.ToArray();
- 
-Debug.WriteLine("THIS CODE IS EXECUTING"); 
-foreach(System.IO.FileInfo F in FILES)
-{
-Process.Start(F.FullName);
-}
-            
-            
-
-               return null;
-             } 
-            }
-           }</CommandContent>
-    <VoiceTrigger>(Play|Open) &amp;int/min=1/max=180/intname=count&amp; (song|songs)</VoiceTrigger>
-    <RequireAuth>false</RequireAuth>
-  </Command>
-  <Command>
-    <ButtonName>VlcControls</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-
-namespace WpfOverlay
-    {
-        public class MyClass
-        {
-        string action;
-        
-        [DllImport("user32.dll")]
-public static extern IntPtr PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-            public object DynamicCode(params object[] Parameters)
-            {
-              //code goes here
-           
- Process[] processes = Process.GetProcessesByName("vlc");
-            const int WM_KEYDOWN = 0x100;
-            const uint WM_KEYUP = 0x0101;
-        foreach (var process in processes)
-        {
-        if(action == "close")
-            process.Kill();
-            
-            else if(action == "pause")
-            {
-          
-
-PostMessage(process.MainWindowHandle,WM_KEYDOWN,(IntPtr)(Keys.Space),IntPtr.Zero);
-PostMessage(process.MainWindowHandle,WM_KEYUP,(IntPtr)(Keys.Space),IntPtr.Zero);
-            }
-            
-            else if(action == "next")
-            {
-            PostMessage(process.MainWindowHandle,WM_KEYDOWN,(IntPtr)(Keys.N),IntPtr.Zero);
-            PostMessage(process.MainWindowHandle,WM_KEYUP,(IntPtr)(Keys.N),IntPtr.Zero);
-            }
-            else if(action == "previous")
-            {
-            PostMessage(process.MainWindowHandle,WM_KEYDOWN,(IntPtr)(Keys.P),IntPtr.Zero);
-            PostMessage(process.MainWindowHandle,WM_KEYUP,(IntPtr)(Keys.P),IntPtr.Zero);
-            }
-            
-            else if(action == "audio")
-            {
-            PostMessage(process.MainWindowHandle,WM_KEYDOWN,(IntPtr)(Keys.U),IntPtr.Zero);
-            PostMessage(process.MainWindowHandle,WM_KEYUP,(IntPtr)(Keys.U),IntPtr.Zero);
-            }
-            else if(action == "increase")
-            {
-              for(int I= 0;I&lt;4;I++)
-              {
-            PostMessage(process.MainWindowHandle,WM_KEYDOWN,(IntPtr)(Keys.Y),IntPtr.Zero);
-            //PostMessage(process.MainWindowHandle,WM_KEYUP,(IntPtr)(Keys.Y),IntPtr.Zero); 
-            System.Threading.Thread.Sleep(20);
-              }
-              
-            }
-            else if(action == "decrease")
-            {
-              for(int I= 0;I&lt;4;I++)
-              {
-            PostMessage(process.MainWindowHandle,WM_KEYDOWN,(IntPtr)(Keys.Q),IntPtr.Zero);
-            //PostMessage(process.MainWindowHandle,WM_KEYUP,(IntPtr)(Keys.Y),IntPtr.Zero); 
-            System.Threading.Thread.Sleep(20);
-              }
-              
-            }
-        }
-               return null;
-             } 
-            }
-           }</CommandContent>
-    <VoiceTrigger>string/stringname=action/close/pause/next/previous/increase/decrease/audio&amp; (vlc|song)</VoiceTrigger>
-    <RequireAuth>false</RequireAuth>
-  </Command>
-  <Command>
-    <ButtonName>ChromeControls</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-
-namespace WpfOverlay
-    {
-        public class MyClass
-        {
-        string action;
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
-        
-        [DllImport("user32.dll")]
-public static extern IntPtr PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-         [DllImport("User32.dll")]
-private static extern int SetForegroundWindow(IntPtr point);
-       
-            public object DynamicCode(params object[] Parameters)
-            {
-
-
-//code goes here
-           
- Process[] processes = Process.GetProcessesByName("chrome");
-            const int WM_KEYDOWN = 0x100;
-            const uint WM_KEYUP = 0x0101;
-            // IntPtr PAUSE = 00000020;
-
-            
-        foreach (var process in processes)
-        {
-     
-     
-     if(process.MainWindowHandle == null)
-     {
-     continue;
-     }
-        
-       
-
-        if(action == "close")
-        {
-        if(process.MainWindowHandle != null)
-          process.Kill();
-          
-          else
-          {
-          Console.Beep();
-          continue;
-          
-          }
-        }
-          
-         else if(action == "pause")
-            {
-           //SetForegroundWindow(process.MainWindowHandle);
-         SendMessage(process.MainWindowHandle,0x6, (IntPtr)0x2,(IntPtr)0);
-         SendMessage(process.MainWindowHandle,0x7, (IntPtr)0,(IntPtr)0);
-         SendMessage(process.MainWindowHandle,0x1c, (IntPtr)0x1,(IntPtr)0);
-         PostMessage(process.MainWindowHandle,WM_KEYDOWN, (IntPtr)0x20,(IntPtr)0x390001);
-        // System.Threading.Thread.Sleep(100);(IntPtr)(Keys.Space)
-         PostMessage(process.MainWindowHandle,WM_KEYUP,(IntPtr)0x20,(IntPtr)0xC0390001);
-            }
-            
-
-        }
-               return null;
-             } 
-            }
-           }</CommandContent>
-    <VoiceTrigger>string/stringname=action/pause&amp; (chrome|youtube)</VoiceTrigger>
-    <RequireAuth>false</RequireAuth>
-  </Command>
-  <Command>
     <ButtonName>Close Chrome</ButtonName>
     <CommandContent>using System;
 using System.IO;
@@ -1002,25 +336,125 @@ namespace WpfOverlay
     <RequireAuth>false</RequireAuth>
   </Command>
   <Command>
-    <ButtonName>unintuative quote storage</ButtonName>
-    <CommandContent>using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Diagnostics;
+    <ButtonName>Tutorial</ButtonName>
+    <CommandContent>Very unintuative tutorial, I Know.
+
+Nevertheless:
+
+This tutorial covers The Voice Trigger Language 
+
+//Pro tip: You can hide the overlay with ALT + TAB and unhide it
+
+//SYNTAX
+'Very Important: between each different syntax/variable type you NEED to add an &amp; symbol. This is used to propperly split, define and recognise the command'
+'Failure to do so will result in non working voice triggers'
+
+First off, normal dialog. This consists of words, like: "Open youtube". 
+When you say 'open youtube' the command the voice trigger is assigned 
+to will be compiled.
+
+example: open twitch
+
+
+//Next We Have Multiple Choice Syntax.
+
+Multiple Choice is represented by two braces like this: ()
+Then between each choice you add the verticle bar | 
+
+so it would look like this: (what is the weather | Weather please | what is the weather like)
+saying any one of those phrases will compile the command the trigger is assigned to.
+
+Currently multiple choice only supports normal dialog and not other syntax
+
+//Next We Have Intiger And String values
+
+
+Intiger: The intiger is usefull for adding a number to your voice recognition.
+
+Example: &amp;int/min=1/max=10/intname=number&amp;
+
+Every Syntax needs to be surrounded by &amp; symbols if any other syntax is present
+
+The int needs to come first, it tells overlay we are using a number.
+The min= value defines the minimum number. The default is 0
+The max= value defines the maximum number, this is needed.
+the intname= value is needed aswell. It tells overlay what the int name will be interface your code
+the / is used to seperate each value. it should not be put before the first value or after the last(again you need the &amp; symbols there)
+
+
+Then in your code you need to add the int with the intname name
+saying the min or max number or anything inbetween will be recorded aswell
+Overlay does not use the intname to recognize a command so it cannot stand alone
+as a voice trigger
+'IMPORTANT: intname needs to be lowercase in your code, as the voice trigger gets normalized to lowercase'
+
+example voice trigger: open &amp;int/min=2/max=5/intname=count&amp; songs
+example code:
+namespace WpfOverlay
+    {
+        public class MyClass
+        {
+        int count;
+            public object DynamicCode(params object[] Parameters)
+            {
+              //code to get songs directory 
+             void OpenSongs(int HowMany)
+             {
+             //do stuff
+             }
+              
+              
+             OpenSongs(count);
+               return null;
+             } 
+            }
+           }
+
+
+Strings: String are usefull for multiple choice strings that need to be passed to the code
+
+example: open &amp;string/gmail/youtube/netflix/stringname=OpenType&amp;
+
+open is just a normal value
+
+string defines this syntax as a multiple choice string
+
+gmail, youtube and netflix are the values used interface speech recognition
+
+stringname= is the name of the string in your code
+
+
+notes: as with intname, stringname needs to be lowercase in your code
+
+how it works?: int and string syntax are used to pass the spoken values to your code via string injection before compiling.
+
+
+example voice trigger: open &amp;string/gmail/youtube/netflix/stringname=OpenType&amp;
+
+example code:
 
 namespace WpfOverlay
     {
         public class MyClass
         {
+        string opentype;//this needs to be lowercase even though in the trigger it is uppercase
             public object DynamicCode(params object[] Parameters)
             {
-              //code goes here
-           
-//Never give up on a dream just because of the time it will take to accomplish it. The time will pass anyway - Earl Nightingale
+             
+              if(opentype == "gmail")
+               //open gmail
+              else if(opentype == "youtube")
+               //open youtube
+               else if(opentype == "netflix")
+               //open netflix
                return null;
              } 
             }
-           }</CommandContent>
+           }
+           
+           
+Note: normal, string and int syntax can be used together as long as they are seperated with the &amp; symbols           
+           </CommandContent>
     <RequireAuth>false</RequireAuth>
   </Command>
 </ArrayOfCommand>
