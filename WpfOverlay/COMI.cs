@@ -11,7 +11,7 @@ namespace WpfOverlay
 {
     class COMI
     {
-       public static void Intialize()
+      /* public static void Intialize()
         {
 
             //Trigger the method PrintIncomingMessage when a packet of type 'Message' is received
@@ -40,6 +40,6 @@ namespace WpfOverlay
             //We have used NetworkComms so we should ensure that we correctly call shutdown
 
             NetworkComms.Shutdown();
-        }
+        }*/
     }
 }

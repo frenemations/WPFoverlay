@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WpfOverlay</RootNamespace>
     <AssemblyName>WpfOverlay</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -58,24 +58,60 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
-      <HintPath>..\packages\AvalonEdit.5.0.3\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\ICSharpCode.AvalonEdit\obj\Debug\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.CodeCompletion">
+      <HintPath>bin\Debug\ICSharpCode.CodeCompletion\obj\Debug\ICSharpCode.CodeCompletion.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory">
+      <HintPath>bin\Debug\Lib\ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory.Cecil">
+      <HintPath>bin\Debug\Lib\ICSharpCode.NRefactory.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory.CSharp">
+      <HintPath>bin\Debug\Lib\ICSharpCode.NRefactory.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory.IKVM">
+      <HintPath>bin\Debug\Lib\ICSharpCode.NRefactory.IKVM.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.NRefactory.Xml">
+      <HintPath>bin\Debug\Lib\ICSharpCode.NRefactory.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Reflection">
+      <HintPath>bin\Debug\Lib\IKVM.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="Interface, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Interface.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Effects, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Mono.Cecil">
+      <HintPath>bin\Debug\Lib\Mono.Cecil.dll</HintPath>
+    </Reference>
     <Reference Include="NetworkCommsDotNet, Version=3.0.0.0, Culture=neutral, PublicKeyToken=f58108eb6480f6ec, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\NetworkCommsDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\packages\net30\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="ProtobufSerializer">
+      <HintPath>..\packages\net30\ProtobufSerializer.dll</HintPath>
     </Reference>
     <Reference Include="ScintillaNET">
       <HintPath>bin\Debug\ScintillaNET\ScintillaNET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Speech" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -95,9 +131,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="COMI.cs" />
+    <Compile Include="CustomObject.cs" />
+    <Compile Include="Inserts.cs" />
+    <Compile Include="Interface.cs" />
+    <Compile Include="IPCmanager.cs" />
     <Compile Include="MyCompletionData .cs" />
     <Compile Include="RunAtStartup.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="ScriptProvider.cs" />
+    <Compile Include="VoiceRecognition.cs" />
     <Compile Include="Testing .cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -168,6 +209,7 @@
     <Content Include="ScintillaNET.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Todo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

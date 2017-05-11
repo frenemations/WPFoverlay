@@ -9,7 +9,7 @@ namespace WpfOverlay
 {
     class Program
     {
-        private static Process ps;
+        
          [DllImport("user32.dll")]
         static extern IntPtr GetActiveWindow();
 
@@ -18,14 +18,16 @@ namespace WpfOverlay
 
         static void Main(string[] args)
         {
-
+          
         }
 
-        [DllImport("user32.dll")]
-        static extern IntPtr GetForegroundWindow();
+       
 
         [DllImport("user32.dll")]
         static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int count);
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetForegroundWindow();
 
         [DllImport("user32.dll")]
         public static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out uint ProcessId);
@@ -38,16 +40,16 @@ namespace WpfOverlay
             GetWindowThreadProcessId(hwnd, out pid);
             Process Buffer = Process.GetProcessById((int)pid);
             if (Buffer.Id != nProcessID) { 
-            ps = Process.GetProcessById((int)pid);//tests if new selected window is same as process, if not new windows pid is set for volume modification
+            MainWindow.ps = Process.GetProcessById((int)pid);//tests if new selected window is same as process, if not new windows pid is set for volume modification
             Console.WriteLine("Buffer Was Not The Same As Overlay Window, Setting Pid");
-                                         }
-
+                                        }
+           
         }
         //Begin Volume Modify Code
         
             public static float? GetApplicationVolume()
             {
-                ISimpleAudioVolume volume = GetVolumeObject(ps.Id);//ps being my currently active process found in the function above this
+                ISimpleAudioVolume volume = GetVolumeObject(MainWindow.ps.Id);//ps being my currently active process found in the function above this
                 if (volume == null)
                     return null;
 
@@ -59,9 +61,9 @@ namespace WpfOverlay
 
             public static bool? GetApplicationMute()
             {
-            if (ps != null)
+            if (MainWindow.ps != null)
             {
-                ISimpleAudioVolume volume = GetVolumeObject(ps.Id);
+                ISimpleAudioVolume volume = GetVolumeObject(MainWindow.ps.Id);
                 if (volume == null)
                     return null;
 
@@ -78,9 +80,9 @@ namespace WpfOverlay
             public static void SetApplicationVolume( float level)
             {
                 GetActiveProcessFileName();
-            if (ps != null)
+            if (MainWindow.ps != null)
             {
-                ISimpleAudioVolume volume = GetVolumeObject(ps.Id);
+                ISimpleAudioVolume volume = GetVolumeObject(MainWindow.ps.Id);
 
                 if (volume == null)
                     return;
@@ -93,7 +95,7 @@ namespace WpfOverlay
 
             public static void SetApplicationMute(int pid, bool mute)
             {
-            if (ps != null)
+            if (MainWindow.ps != null)
             {
                 ISimpleAudioVolume volume = GetVolumeObject(pid);
                 if (volume == null)

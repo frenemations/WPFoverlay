@@ -1,0 +1,3 @@
+﻿Add (|) modifers apllicable to whole int/string expressions in the voice commands language
+
+switch the detection of the correct command to a foreachparralel loop instead of a foreach loop with propper breaks

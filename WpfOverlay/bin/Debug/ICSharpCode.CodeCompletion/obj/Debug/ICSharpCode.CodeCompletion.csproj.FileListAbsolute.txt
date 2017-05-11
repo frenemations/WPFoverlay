@@ -1,0 +1,6 @@
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Bin\ICSharpCode.CodeCompletion.xml
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Bin\ICSharpCode.CodeCompletion.dll
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Bin\ICSharpCode.CodeCompletion.pdb
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.CodeCompletion\obj\Debug\ICSharpCode.CodeCompletion.csprojResolveAssemblyReference.cache
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.CodeCompletion\obj\Debug\ICSharpCode.CodeCompletion.dll
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.CodeCompletion\obj\Debug\ICSharpCode.CodeCompletion.pdb

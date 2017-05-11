@@ -1,6 +1,7 @@
 ﻿using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Editing;
+using ICSharpCode.NRefactory.Editor;
 using System;
 using System.Collections.Generic;
 using System.Linq;

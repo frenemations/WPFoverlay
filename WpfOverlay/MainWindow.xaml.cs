@@ -12,18 +12,33 @@ using System.Diagnostics;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using System.Collections.Generic;
 using System.Windows.Input;
+using NetworkCommsDotNet;
+using NetworkCommsDotNet.Connections;
+using System.Reflection;
+using NetworkCommsDotNet.DPSBase.SevenZipLZMACompressor;
+using ProtoBuf;
+using NetworkCommsDotNet.Connections.TCP;
+using NetworkCommsDotNet.DPSBase;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.CodeCompletion;
+using ICSharpCode.CodeCompletion.Sample;
+using System.Windows.Media;
 
 namespace WpfOverlay
 {
-
+    
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window 
     {
+        private const string AppTitle = "Text";
+        private ICSharpCode.CodeCompletion.CSharpCompletion completion;//code completion 
+        public static Process ps;
+        public static string DEBUGME = "HERRO IT WORKS";
         //lable for External accessing?
         public Label MainWindowLabel;
-
+        
         public bool EditFinal = false;
         public RunAtStartup DeleteStart;
         CompletionWindow completionWindow;
@@ -44,22 +59,29 @@ namespace WpfOverlay
         private const int APPCOMMAND_VOLUME_UP = 0xA0000;
         private const int APPCOMMAND_VOLUME_DOWN = 0x90000;
         private const int WM_APPCOMMAND = 0x319;
-      public static SpeechSynthesizer synth = new SpeechSynthesizer();
+        public static SpeechSynthesizer synth = new SpeechSynthesizer();
         public static ObservableCollection<Command> Command;
         ObservableCollection<RunAtStartup> RunAtS;
+        public ObservableCollection<Inserts> _Insert;
         [DllImport("user32.dll")]
         public static extern IntPtr SendMessageW(IntPtr hWnd, int Msg,
             IntPtr wParam, IntPtr lParam);
-
     
 
         public MainWindow()
         {
 
-          
+            foreach (InstalledVoice voice in synth.GetInstalledVoices())
+            {
+                VoiceInfo info = voice.VoiceInfo;
 
-            foreach (var voice in synth.GetInstalledVoices())
-                Console.WriteLine(voice.VoiceInfo.Name);
+                Console.WriteLine(" Name:          " + info.Name);
+                Console.WriteLine(" Culture:       " + info.Culture);
+                Console.WriteLine(" Age:           " + info.Age);
+                Console.WriteLine(" Gender:        " + info.Gender);
+                Console.WriteLine(" Description:   " + info.Description);
+                Console.WriteLine(" ID:            " + info.Id);
+            }
 
             RunAtS = new ObservableCollection<RunAtStartup>();
 
@@ -70,6 +92,8 @@ namespace WpfOverlay
             };
             RunAtS.Add(Boop);
           
+
+            //load StartupCommands
             XmlSerializer xsx = new XmlSerializer(typeof(ObservableCollection<RunAtStartup>));
             using (StreamReader rd = new StreamReader("StartupCommands.xml"))
             {
@@ -83,7 +107,7 @@ namespace WpfOverlay
             }
 
 
-
+            //load Normal Commands
             XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Command>));
             using (StreamReader rd = new StreamReader("Commands.xml"))
             {
@@ -92,28 +116,56 @@ namespace WpfOverlay
 
             }
 
+
+            //load Inserts
+            XmlSerializer xss= new XmlSerializer(typeof(ObservableCollection<Inserts>));
+            try {
+                using (StreamReader rd = new StreamReader("Inserts.xml"))
+                {
+                    _Insert = xs.Deserialize(rd) as ObservableCollection<Inserts>;
+
+                }
+            }
+            catch(Exception E)
+            {
+          //      MessageBox.Show(E.ToString(), "LOAD ERROR");
+            }
             
+
+
+            //Initialization of core features
             InitializeComponent();
             CompileAtStartup();
-            Test.initializeVrec();
-             COMI.Intialize();
+            VoiceRecognition.initializeVrec();
+            IntializeCOM();
             Client.Main();
+            SetEditorPropperties();
             //initianize AvanonEdit Code Completion Handlers
-            textEditor.TextArea.TextEntering += textEditor_TextArea_TextEntering;
-            textEditor.TextArea.TextEntered += textEditor_TextArea_TextEntered;
+            //textEditor.TextArea.TextEntering += textEditor_TextArea_TextEntering;
+            // textEditor.TextArea.TextEntered += textEditor_TextArea_TextEntered;
 
             // Set Propperties Of speech synthesizer
-            synth.SelectVoice("Microsoft Zira Desktop");
+            synth.SelectVoiceByHints(VoiceGender.Neutral, VoiceAge.Teen,0, new System.Globalization.CultureInfo("en-US"));
+            //synth.SelectVoice("Microsoft Hazel Desktop");
+            
             synth.Rate = 3;
 
             // Configure the audio output. 
             synth.SetOutputToDefaultAudioDevice();
 
+            //no idea why this is "needed" but its for code completion
+            completion = new ICSharpCode.CodeCompletion.CSharpCompletion(new ScriptProvider());
 
 
-
-
-          
+            //insert combobox declaration
+            /*   List<string> data = new List<string>();
+               data.Add("Book");
+               data.Add("Computer");
+               data.Add("Chair");
+               data.Add("Mug");
+               data.Add("This is not a displayname huh");
+               Insert_Functions.ItemsSource = data;
+               Insert_Functions.DisplayMemberPath = data[0];*/
 
 
 
@@ -128,7 +180,18 @@ namespace WpfOverlay
 
             CommandBox.DataContext = Command;
             RunAtSTartup.DataContext = RunAtS;
+
+
+
+           
+
+
+
         }
+
+       
+
+
 
         //AvalonEdit Code Completion handlers
         void textEditor_TextArea_TextEntered(object sender, TextCompositionEventArgs e)
@@ -203,14 +266,36 @@ namespace WpfOverlay
         }
         private void OnApplicationExit(object sender, EventArgs e)
         {
+            SaveInserts();
             Console.WriteLine("application is about to exit");
             SaveCommands();
-            COMI.ShutDownCOM();
+            ShutDownCOM();
+        }
+
+        //Save Insert Functions(code that can be inserted into a command while editing its 
+        private void SaveInserts()
+        {
+           Inserts TestI = new Inserts() { InsertName = "dwdada"  };
+           _Insert = new ObservableCollection<Inserts>();
+           _Insert.Add(TestI);
+            XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Inserts>));
+            using (StreamWriter wr = new StreamWriter("Inserts.xml"))
+            {
+                xs.Serialize(wr, _Insert);
+            }
         }
 
         //Function to save ObservableCollection/button commands
         private void SaveCommands()
         {
+            foreach(Command A in Command)
+            {
+                A.VoiceTrigStringName = null;
+                A.VoiceTrigStringNamePosition = null;
+                A.VoiceTrigIntName = null;
+            }
+
+
             XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Command>));
             using (StreamWriter wr = new StreamWriter("Commands.xml"))
             {
@@ -409,15 +494,23 @@ namespace WpfOverlay
 
         protected override void OnClosed(EventArgs e)
         {
-            
             StopListeningForWindowChanges();//KEEP THIS IT UNHOOKS THE LISTENER FOR WINDOW FOCUS CHANGES 
             _source.RemoveHook(HwndHook);
             _source = null;
             UnregisterHotKey();
             base.OnClosed(e);
             synth.Dispose();
-            Test.rec.Dispose();
+           // VoiceRecognition.rec.Dispose();
+
+            //save
+
+            SaveInserts();
+            Console.WriteLine("application is about to exit");
+            SaveCommands();
+            ShutDownCOM();
         }
+
+
 
         private void RegisterHotKey()
         {
@@ -435,6 +528,13 @@ namespace WpfOverlay
         {
             var helper = new WindowInteropHelper(this);
             UnregisterHotKey(helper.Handle, HOTKEY_ID);
+        }
+
+        public static async void Speak(String Content)
+        {
+            Console.WriteLine("Speak Method running");
+            synth.SpeakAsyncCancelAll();//Cancel Previous dialog before saying new. This avoids queued speech and makes it snappy
+            synth.Speak(Content);
         }
 
         private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -542,21 +642,23 @@ namespace WpfOverlay
                     if (IsEdit == true)
                     {
 
-                        textEditor.Text = CurrentCommandText;
+                        OpenFile(CurrentCommandText);//textEditor.Text = CurrentCommandText; This is outdated methods. Use Openfile(String) if you want codeCompletion
                         EditFinal = true;
                     }
                     else
                     {
 
                         //just to get things going and give the user a predefined idea of whats going on
-                        textEditor.Text = @"using System;
+                        String TMp = @"using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Diagnostics;
 
-namespace MyNamespace
+namespace WpfOverlay
     {
         public class MyClass
         {
+
             public object DynamicCode(params object[] Parameters)
             {
               //code goes here
@@ -566,6 +668,7 @@ namespace MyNamespace
              } 
             }
            }";
+                        OpenFile(TMp);
                     }
 
                 }
@@ -624,17 +727,18 @@ namespace MyNamespace
                     if (IsEdit == true)
                     {
 
-                        textEditor.Text = CurrentCommandText;
+                        OpenFile(CurrentCommandText);//textEditor.Text = CurrentCommandText;
                     }
                     else
                     {
 
                         //just to get things going and give the user a predefined idea of whats going on
-                        textEditor.Text = @"using System;
+                        String TMP = @"using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Diagnostics;
 
-namespace MyNamespace
+namespace WpfOverlay
     {
         public class MyClass
         {
@@ -647,6 +751,7 @@ namespace MyNamespace
              } 
             }
            }";
+                        OpenFile(TMP);
                     }
 
                 }
@@ -706,9 +811,7 @@ namespace MyNamespace
             Voicetrigger = selected.VoiceTrigger;
             if(RequireAuth.IsChecked != null)
             auth = (bool)RequireAuth.IsChecked;
-            //   Console.WriteLine(CurrentButtonName);
-          
-
+            
 
             Console.WriteLine(selected.ButtonName);
             textEditor.Text = CurrentButtonName;
@@ -810,8 +913,17 @@ namespace MyNamespace
         private void VoiceCommand(object sender, EventArgs e)
         {
             Command ChangeVoiceCommand = (Command)CommandBox.SelectedItem;
-          string ChangeTrigger =  Microsoft.VisualBasic.Interaction.InputBox("Input Voice Command Trigger For This Button", "Input", "", 100,80);
-            if (ChangeTrigger != null)
+            string ChangeTrigger;
+
+            if (ChangeVoiceCommand.VoiceTrigger != null)
+            {
+                 ChangeTrigger = Microsoft.VisualBasic.Interaction.InputBox("Input Voice Command Trigger For This Button", "Input",ChangeVoiceCommand.VoiceTrigger, 100, 80);
+            }
+            else
+            {
+                 ChangeTrigger = Microsoft.VisualBasic.Interaction.InputBox("Input Voice Command Trigger For This Button", "Input", "", 100,  80);
+            }
+            if (ChangeTrigger != null && ChangeTrigger != "")
             {
                 ChangeVoiceCommand.VoiceTrigger = ChangeTrigger;
             }
@@ -831,8 +943,147 @@ namespace MyNamespace
 
         }
 
+
+
+        //Initialize tcp Interface for communication with this class
+        public static void IntializeCOM()
+        {
+
+            //Trigger the method PrintIncomingMessage when a packet of type 'Message' is received
+            //We expect the incoming object to be a string which we state explicitly by using <string>
+            NetworkComms.AppendGlobalIncomingPacketHandler<string>("Message", PrintIncomingMessage);
+           
+            //Start listening for incoming connections
+            Connection.StartListening(ConnectionType.TCP, new System.Net.IPEndPoint(System.Net.IPAddress.Any, 1100));
+
+            //Print out the IPs and ports we are now listening on
+            Console.WriteLine("Server listening for TCP connection on:");
+            foreach (System.Net.IPEndPoint localEndPoint in Connection.ExistingLocalListenEndPoints(ConnectionType.TCP))
+                Console.WriteLine("{0}:{1}", localEndPoint.Address, localEndPoint.Port);
+
+            //Let the user close the server
+            Console.WriteLine("\nPress any key to close server.");
+            // Console.ReadKey(true);
+            NetworkComms.AppendGlobalIncomingPacketHandler<CustomObject>("CustomObject",
+                               (header, connection, customObject) =>
+                               {
+                                   Console.WriteLine("\nReceived custom protobuf object from " + connection);
+                                   Console.WriteLine(" ... intValue={0}, stringValue={1}", customObject.IntValue, customObject.StringValue);
+                               });
+
+        }
+
+        //Handler for COM interface
+        private static void PrintIncomingMessage(PacketHeader header, Connection connection, string message)
+        {
+            Console.WriteLine("\nA message was received from " + connection.ToString() + " which said '" + message + "'.");
+            try {
+                // Type TP = Type.GetType("");
+                
+                    FieldInfo fld = typeof(MainWindow).GetField("ps");
+                    Console.WriteLine("Value of retrieved value is : " + fld.GetValue(null));
+
+                Type TheType = fld.GetValue(null).GetType();
+                Console.WriteLine("Type has been found as " + TheType.ToString());
+                //  object bam = (TheType.type)fld.GetValue(null);
+                object bam = Convert.ChangeType(fld.GetValue(null), TheType);
+                Console.WriteLine("Bam bool value is: " + bam);
+
+                CustomObject MyObject = new CustomObject();
+                
+                // NetworkComms.SendObject<object>("object", "127.0.0.1", 1100, "EXAMPLE");
+                //  connection.SendObject("reply", test);
+               connection.SendObject("reply", MyObject);
+               
+            }
+            catch(Exception E)
+            {
+                MessageBox.Show(E.ToString(), "ERROR");
+            }
+           
+            // catch(Exspected)
+
+        }
         
+        public static void ShutDownCOM()
+        {
+            //We have used NetworkComms so we should ensure that we correctly call shutdown
+
+            NetworkComms.Shutdown();
+        }
+
+        private void Insert_Functions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+         //   Console.WriteLine(e.);
+        }
+
+        private void InsertCodeBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            // ... A List.
+            List<string> data = new List<string>();
+            data.Add("Book");
+            data.Add("Computer");
+            data.Add("Chair");
+            data.Add("Mug");
+
+            // ... Get the ComboBox reference.
+            var comboBox = sender as ComboBox;
+
+            // ... Assign the ItemsSource to the List.
+            comboBox.ItemsSource = data;
+
+            // ... Make the first item selected.
+            comboBox.SelectedIndex = 1;
+        }
+
+        //code completion setup
+        private void SetEditorPropperties()
+        {
+            if (completionWindow != null) //close window before modifications... is so in origin script so for safety I will do it here
+                completionWindow.Close();
+
+            var converter = new System.Windows.Media.BrushConverter();
+            var brush = (Brush)converter.ConvertFromString("#FF444444");
+            var brushWhite = (Brush)converter.ConvertFromString("#FFFFFFFF");
+
+            textEditor.FontFamily = new FontFamily("Consolas");
+            textEditor.FontSize = 12;
+            textEditor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinition("C#");
+            textEditor.Background = brush;
+            textEditor.Foreground = brushWhite;
+            textEditor.Document.FileName = "Code.cs";
+        }
+
+        //Code Completion
+        private void OpenFile(string Code)
+        {
+            textEditor.Completion = completion;
+            textEditor.Text = Code;//simplification from what it was :D         
+        }
+
+
+        private void RestartVCommands(object sender, RoutedEventArgs e)
+        {
+           VoiceRecognition.ShutDownVoiceRec();
+        }
+
+        private void ShutupOverlay(object sender, RoutedEventArgs e)
+        {
+            if(VoiceRecognition.Shutup)
+            {
+                VoiceRecognition.Shutup = false;
+                Console.Beep(200, 100);
+            }
+else
+            {
+                VoiceRecognition.Shutup = true;
+                Console.Beep(70,100);
+            }
+                }
     }
+
+    
+
     }
 
    

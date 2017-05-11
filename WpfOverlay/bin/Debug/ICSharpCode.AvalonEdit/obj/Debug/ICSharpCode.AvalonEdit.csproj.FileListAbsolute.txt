@@ -1,0 +1,16 @@
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Bin\ICSharpCode.AvalonEdit.xml
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Bin\ICSharpCode.AvalonEdit.dll
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Bin\ICSharpCode.AvalonEdit.pdb
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\ICSharpCode.AvalonEdit.csprojResolveAssemblyReference.cache
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\ICSharpCode.AvalonEdit_MarkupCompile.cache
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\ICSharpCode.AvalonEdit_MarkupCompile.lref
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\CodeCompletion\CompletionList.baml
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\CodeCompletion\InsightWindow.baml
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\Search\SearchPanel.baml
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\Search\DropDownButton.baml
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\TextEditor.baml
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\themes\generic.baml
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\ICSharpCode.AvalonEdit.g.resources
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\ICSharpCode.AvalonEdit.dll
+C:\Users\Shane\Downloads\NRefactory-Completion-Sample-master\NRefactory-Completion-Sample-master\Src\ICSharpCode.AvalonEdit\obj\Debug\ICSharpCode.AvalonEdit.pdb
